@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -8,71 +10,8 @@ Route::get('/', function () {
 
 Route::view('/home', 'home', ['title' => 'Olá Mundo']);
 
-Route::prefix('users')->group(function () {
-    Route::get('{id}', function ($id) {
-        $users = [
-            [
-                "name" => "Fulano",
-                "age" => 31,
-                "weigth" => "81.54",
-                "is_admin" => true,
-                "address" => [
-                    "address_line1" => "Rua Sei lá, casa 32",
-                    "address_line2" => "Quadra 12",
-                    "city" => "Cuaibá",
-                ]
-            ],
-            [
-                "name" => "Cicrano",
-                "age" => 27,
-                "weigth" => "72.64",
-                "is_admin" => false,
-                "address" => [
-                    "address_line1" => "Rua Sei lá, casa 32",
-                    "address_line2" => "Quadra 12",
-                    "city" => "Cuaibá",
-                ]
-            ]
-        ];
-
-        return $users[$id];
-    })->whereNumber('id');
-
-
-    Route::get('', function () {
-        return [
-            [
-                "name" => "Fulano",
-                "age" => 31,
-                "weigth" => "81.54",
-                "is_admin" => true,
-                "address" => [
-                    "address_line1" => "Rua Sei lá, casa 32",
-                    "address_line2" => "Quadra 12",
-                    "city" => "Cuaibá",
-                ]
-            ],
-            [
-                "name" => "Cicrano",
-                "age" => 27,
-                "weigth" => "72.64",
-                "is_admin" => false,
-                "address" => [
-                    "address_line1" => "Rua Sei lá, casa 32",
-                    "address_line2" => "Quadra 12",
-                    "city" => "Cuaibá",
-                ]
-            ]
-        ];
-    });
-
-    Route::post('', function () {
-        return "Olá mundo";
-    });
-
-    Route::delete('{id}', function () {
-        return "Olá mundo";
-    });
+Route::get('/user/{user}', function (User $user) {
+    dd($user);
 });
 
 Route::prefix('products')->middleware('auth')->group(function () {
@@ -98,4 +37,9 @@ Route::prefix('products')->middleware('auth')->group(function () {
 
 Route::get('rota-a', function () {
     return redirect("users");
+});
+
+//Injeção de Dependencias
+Route::post('/dependencia', function (Request $request) {
+    dd($request);
 });
